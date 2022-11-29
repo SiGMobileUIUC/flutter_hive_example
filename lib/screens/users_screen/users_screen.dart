@@ -13,8 +13,9 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
+  // TextEditingController so that we can get the text in the User Id TextField anywhere in this widget
   final TextEditingController idController = TextEditingController();
-
+  // The user object to display. It is initially null and also when no user with the id is found in local storage
   User? user;
 
   @override
@@ -29,6 +30,7 @@ class _UsersScreenState extends State<UsersScreen> {
         children: [
           Row(
             children: [
+              // TextField so that the user can input the user id to get
               Expanded(
                 child: TextField(
                   controller: idController,
@@ -37,6 +39,7 @@ class _UsersScreenState extends State<UsersScreen> {
               ),
               IconButton(
                 onPressed: () {
+                  // Set the user to the value gotten from the local storage
                   setState(() {
                     user = localStorageService.getUser(id: idController.text);
                   });
@@ -45,19 +48,22 @@ class _UsersScreenState extends State<UsersScreen> {
               ),
               IconButton(
                 onPressed: () {
+                  // Remove the user from local storage, clear the text field and stop displaying the user
                   setState(() {
                     localStorageService.removeUser(id: idController.text);
-                    user = null;
                     idController.clear();
+                    user = null;
                   });
                 },
                 icon: const Icon(Icons.delete),
               ),
             ],
           ),
+          // If the user is not null, display it
           if (user != null) UserWidget(user: user!),
         ],
       ),
+      // Button to go the add user screen
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed('/addUser');

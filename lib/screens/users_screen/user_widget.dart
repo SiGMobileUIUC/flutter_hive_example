@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/user.dart';
 
+// A Card that displays user info
 class UserWidget extends StatelessWidget {
   const UserWidget({super.key, required this.user});
 

@@ -9,11 +9,14 @@ import 'package:provider/provider.dart';
 import 'models/user.dart';
 
 void main() async {
+  // Initialize Hive for Flutter
   await Hive.initFlutter();
-
+  // Register the UserAdapter so that Hive can read and write User objects
   Hive.registerAdapter(UserAdapter());
 
+  // Open the settings box
   await Hive.openBox('settings');
+  // Open the users box that can only hold User objects
   await Hive.openBox<User>('users');
 
   runApp(const MyApp());
@@ -25,9 +28,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
+      // Create a Provider that provides an instance of the LocalStorageService class to the whole app
       create: (_) => LocalStorageService(),
       child: MaterialApp(
-        title: 'Demo Settings',
+        title: 'Flutter Hive Example',
         routes: {
           '/': (_) => const HomeScreen(),
           '/users': (_) => const UsersScreen(),
